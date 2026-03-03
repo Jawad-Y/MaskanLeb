@@ -1,0 +1,42 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+class Review extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'reviewer_id',
+        'owner_id',
+        'apartment_id',
+        'rating',
+        'comment',
+    ];
+
+    protected function casts(): array
+    {
+        return [
+            'rating' => 'integer',
+        ];
+    }
+
+    public function reviewer(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'reviewer_id');
+    }
+
+    public function owner(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'owner_id');
+    }
+
+    public function apartment(): BelongsTo
+    {
+        return $this->belongsTo(Apartment::class);
+    }
+}
